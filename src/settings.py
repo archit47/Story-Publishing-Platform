@@ -27,7 +27,8 @@ def get_config_file_name():
 
 
 def get_config_dir():
-    root_dir = Path('.').resolve().parent
+    # root_dir = Path('.').resolve().parent
+    root_dir = Path('.').resolve()
     config_dir = root_dir / Path('etc') / Path('config')
     print(config_dir)
     if os_utils.directory_exists(config_dir):
