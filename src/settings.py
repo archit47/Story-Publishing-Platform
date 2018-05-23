@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from pathlib import Path
 import os
+from utils import os_utils
 
 # some environment constants
 DEV = 'dev'
@@ -29,18 +30,10 @@ def get_config_dir():
     root_dir = Path('.').resolve().parent
     config_dir = root_dir / Path('etc') / Path('config')
     print(config_dir)
-    if dir_exists(config_dir):
+    if os_utils.directory_exists(config_dir):
         return config_dir
     else:
         return None
-
-
-def dir_exists(directory_path):
-    return os.path.exists(directory_path)
-
-
-def file_exists(file_path):
-    return os.path.isfile(file_path) or Path(str(file_path)).is_file()
 
 
 def get_config_abs_path():
@@ -50,7 +43,7 @@ def get_config_abs_path():
     config_file_name = get_config_file_name()
     env_file_path = config_dir / Path(config_file_name)
 
-    if not file_exists(env_file_path):
+    if not os_utils.file_exists(env_file_path):
         raise Exception('environment file not found')
 
     return env_file_path
@@ -58,5 +51,6 @@ def get_config_abs_path():
 
 # Get absolute path to the config file
 env_path = get_config_abs_path()
+print(env_path)
 # Load the environment variables
 load_dotenv(dotenv_path=env_path)
