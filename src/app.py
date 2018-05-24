@@ -1,15 +1,18 @@
 import falcon
-from src.resources import (
+from resources import (
     BaseResource,
     AuthorResource, NewAuthorResource,
     DraftResource, NewDraftResource, DraftsListResource,
     StoryResource, NewStoryResource,
     UserFeedResource
 )
-from src.middleware import (
+from middleware import (
     ContextMiddleware, AuthMiddleware
 )
-from src.errors import api_error_handler
+from errors import api_error_handler
+from waitress import serve
+from settings import HOST, PORT
+from wsgiref import simple_server
 
 
 # List of middleware
@@ -43,3 +46,8 @@ app.add_error_handler(Exception, handler=api_error_handler)
 
 if __name__ == "__main__":
     print("Hello World!")
+    print("Server started listening on: %s:%s" % (HOST, PORT))
+    # serve(app=app, host=HOST, port=PORT)
+    web_server = simple_server.make_server(HOST, int(PORT), app)
+    web_server.serve_forever(poll_interval=0.2)
+

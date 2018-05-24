@@ -55,3 +55,7 @@ env_path = get_config_abs_path()
 print(env_path)
 # Load the environment variables
 load_dotenv(dotenv_path=env_path)
+
+HOST = os.getenv('HOST')
+PORT = os.getenv('PORT')
+print(HOST, PORT)
