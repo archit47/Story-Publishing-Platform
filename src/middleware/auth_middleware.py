@@ -1,10 +1,23 @@
 import falcon
 
 
+ALLOWED_UNAUTHENTICATED = {
+    r'/': ['GET']
+}
+
+
 # To be customized later-on
 class AuthMiddleware:
 
     def process_request(self, req, resp):
+
+        req_path = req.path.lower()
+        req_method = req.method.upper()
+        if req_path in ALLOWED_UNAUTHENTICATED.keys() and \
+                req_method in ALLOWED_UNAUTHENTICATED[req_path]:
+            return
+
+        # Perhaps, the request needs to be authenticated
         token = req.get_header('Authorization')
         account_id = req.get_header('Account-ID')
 
